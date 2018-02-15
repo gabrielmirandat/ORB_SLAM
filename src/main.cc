@@ -66,6 +66,7 @@ int main(int argc, char **argv)
     if(!fsSettings.isOpened())
     {
         ROS_ERROR("Wrong path to settings. Path must be absolut or relative to ORB_SLAM package directory.");
+        cerr << "Falied to open at: " << strSettingsFile.c_str() << endl;
         ros::shutdown();
         return 1;
     }
@@ -87,19 +88,19 @@ int main(int argc, char **argv)
     ORB_SLAM::ORBVocabulary Vocabulary;
     Vocabulary.load(fsVoc);
     */
-    
-    // New version to load vocabulary from text file "Data/ORBvoc.txt". 
+
+    // New version to load vocabulary from text file "Data/ORBvoc.txt".
     // If you have an own .yml vocabulary, use the function
     // saveToTextFile in Thirdparty/DBoW2/DBoW2/TemplatedVocabulary.h
     string strVocFile = ros::package::getPath("ORB_SLAM")+"/"+argv[1];
     cout << endl << "Loading ORB Vocabulary. This could take a while." << endl;
-    
+
     ORB_SLAM::ORBVocabulary Vocabulary;
     bool bVocLoad = Vocabulary.loadFromTextFile(strVocFile);
 
     if(!bVocLoad)
     {
-        cerr << "Wrong path to vocabulary. Path must be absolut or relative to ORB_SLAM package directory." << endl;
+        ROS_ERROR("Wrong path to vocabulary. Path must be absolut or relative to ORB_SLAM package directory.");
         cerr << "Falied to open at: " << strVocFile << endl;
         ros::shutdown();
         return 1;
